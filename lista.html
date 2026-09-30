@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Listado de Gastos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    .acciones {
+      margin-bottom: 20px;
+      text-align: right;
+    }
+    .btn-nuevo {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 15px;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+    .btn-nuevo:hover {
+      background-color: #0056b3;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+      color: #333;
+    }
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    .cargando {
+      text-align: center;
+      font-weight: bold;
+      color: #666;
+    }
+    .vacio {
+      text-align: center;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Historial de Gastos Registrados</h2>
+
+  <div class="acciones">
+    <a href="index.html" class="btn-nuevo">+ Registrar nuevo gasto</a>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Tipo</th>
+        <th>Fecha</th>
+        <th>Monto</th>
+      </tr>
+    </thead>
+    <tbody id="tablaGastos">
+      <tr>
+        <td colspan="4" class="cargando">Cargando datos...</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Cargar Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+  <script>
+    // Configuración exacta de tu proyecto Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyCEVasLbNpqGOBJ93eUXWOK7EqaAJGpGnY",
+      authDomain: "tiendaproductos-e0641.firebaseapp.com",
+      projectId: "tiendaproductos-e0641",
+      storageBucket: "tiendaproductos-e0641.firebasestorage.app",
+      messagingSenderId: "514106123298",
+      appId: "1:514106123298:web:cbea281f0fe422edb9967b",
+      measurementId: "G-338Q917BV9"
+    };
+
+    // Inicializar Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const tablaBody = document.getElementById("tablaGastos");
+
+    // Escuchar cambios en la base de datos en tiempo real
+    db.collection("gastos").orderBy("creadoEn", "desc").onSnapshot((snapshot) => {
+      tablaBody.innerHTML = "";
+
+      if (snapshot.empty) {
+        tablaBody.innerHTML = `<tr><td colspan="4" class="vacio">No hay gastos registrados aún.</td></tr>`;
+        return;
+      }
+
+      snapshot.forEach((doc) => {
+        const gasto = doc.data();
+        
+        // Formatear el monto a 2 decimales
+        const montoFormateado = parseFloat(gasto.monto).toFixed(2);
+
+        const fila = document.createElement("tr");
+        fila.innerHTML = `
+          <td>${gasto.nombre}</td>
+          <td>${gasto.tipo}</td>
+          <td>${gasto.fecha}</td>
+          <td>S/ ${montoFormateado}</td>
+        `;
+
+        tablaBody.appendChild(fila);
+      });
+    }, (error) => {
+      console.error("Error al obtener los gastos: ", error);
+      tablaBody.innerHTML = `<tr><td colspan="4" style="color:red; text-align:center;">Error al cargar los datos.</td></tr>`;
+    });
+  </script>
+</body>
+</html>

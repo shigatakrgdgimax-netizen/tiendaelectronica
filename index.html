@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechStore - Tu Tienda Tecnologica</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0b0f19;
+      --card-bg: #151c2c;
+      --accent: #2563eb;
+      --accent-hover: #3b82f6;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --price-color: #10b981;
+      --border-color: #1e293b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      padding-bottom: 50px;
+    }
+
+    /* BARRA DE NAVEGACION */
+    header {
+      background-color: rgba(21, 28, 44, 0.95);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 1px solid var(--border-color);
+      padding: 15px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--text-main);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo span {
+      color: var(--accent-hover);
+    }
+
+    nav {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      background-color: transparent;
+      transition: all 0.2s ease-in-out;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    nav a:hover {
+      color: var(--text-main);
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    nav a.active {
+      background-color: var(--accent);
+      color: white;
+      box-shadow: 0 0 15px rgba(37, 99, 235, 0.4);
+    }
+
+    /* BANNER HERO */
+    .hero {
+      background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
+      padding: 50px 20px;
+      text-align: center;
+      margin-bottom: 30px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .hero h1 {
+      font-size: 2.3rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      background: linear-gradient(to right, #60a5fa, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      color: var(--text-muted);
+      font-size: 1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* CONTENEDOR PRINCIPAL */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .seccion-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 35px 0 20px 0;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    .seccion-titulo {
+      font-size: 1.4rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .grid-productos {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 25px;
+    }
+
+    /* TARJETAS DE PRODUCTO */
+    .tarjeta {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .tarjeta:hover {
+      transform: translateY(-7px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      border-color: rgba(59, 130, 246, 0.4);
+    }
+
+    .img-container {
+      width: 100%;
+      height: 190px;
+      background-color: #0d1322;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .tarjeta img {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+      transition: transform 0.3s ease;
+    }
+
+    .tarjeta:hover img {
+      transform: scale(1.08);
+    }
+
+    .product-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 6px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .product-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 15px;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .precio {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--price-color);
+    }
+
+    .btn-comprar {
+      background-color: var(--accent);
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-comprar:hover {
+      background-color: var(--accent-hover);
+    }
+
+    .cargando, .vacio {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 30px;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      background: var(--card-bg);
+      border-radius: 8px;
+      border: 1px dashed var(--border-color);
+    }
+
+    .icon-svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BARRA DE NAVEGACION -->
+  <header>
+    <a href="index.html" class="logo">
+      <svg class="icon-svg" style="color: #3b82f6;" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      Tech<span>Store</span>
+    </a>
+    <nav>
+      <a href="index.html" class="active">Inicio</a>
+      <a href="mouses.html">Mouses</a>
+      <a href="teclados.html">Teclados</a>
+      <a href="audifonos.html">Audifonos</a>
+    </nav>
+  </header>
+
+  <!-- BANNER HERO -->
+  <div class="hero">
+    <h1>El mejor Setup para tus partidas</h1>
+    <p>Explora nuestro catalogo completo con componentes y perifericos de alto rendimiento.</p>
+  </div>
+
+  <div class="container">
+
+    <!-- SECCION MOUSES -->
+    <div class="seccion-header">
+      <h2 class="seccion-titulo">Mouses Gamers</h2>
+    </div>
+    <div class="grid-productos" id="mouses-grid">
+      <p class="cargando">Cargando catalogo de mouses...</p>
+    </div>
+
+    <!-- SECCION TECLADOS -->
+    <div class="seccion-header">
+      <h2 class="seccion-titulo">Teclados Mecanicos</h2>
+    </div>
+    <div class="grid-productos" id="teclados-grid">
+      <p class="cargando">Cargando catalogo de teclados...</p>
+    </div>
+
+    <!-- SECCION AUDIFONOS -->
+    <div class="seccion-header">
+      <h2 class="seccion-titulo">Audifonos & Headsets</h2>
+    </div>
+    <div class="grid-productos" id="audifonos-grid">
+      <p class="cargando">Cargando catalogo de audifonos...</p>
+    </div>
+
+  </div>
+
+  <!-- FIREBASE SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCEVasLbNpqGOBJ93eUXWOK7EqaAJGpGnY",
+      authDomain: "tiendaproductos-e0641.firebaseapp.com",
+      projectId: "tiendaproductos-e0641",
+      storageBucket: "tiendaproductos-e0641.firebasestorage.app",
+      messagingSenderId: "514106123298",
+      appId: "1:514106123298:web:cbea281f0fe422edb9967b",
+      measurementId: "G-338Q917BV9"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    function cargarColeccion(nombreColeccion, idContenedor) {
+      const contenedor = document.getElementById(idContenedor);
+
+      db.collection(nombreColeccion).orderBy("creadoEn", "desc").onSnapshot((snapshot) => {
+        contenedor.innerHTML = "";
+
+        if (snapshot.empty) {
+          contenedor.innerHTML = `<div class="vacio">No hay productos disponibles en esta seccion.</div>`;
+          return;
+        }
+
+        snapshot.forEach((doc) => {
+          const item = doc.data();
+          const precioFormateado = parseFloat(item.precio || 0).toFixed(2);
+
+          const card = document.createElement("div");
+          card.className = "tarjeta";
+          card.innerHTML = `
+            <div>
+              <div class="img-container">
+                <img src="${item.imagenUrl}" alt="${item.nombre}" onerror="this.src='https://via.placeholder.com/200/151c2c/94a3b8?text=Sin+Imagen'">
+              </div>
+              <div class="product-title" title="${item.nombre}">${item.nombre}</div>
+              <div class="product-desc">${item.descripcion || ''}</div>
+            </div>
+            <div class="card-footer">
+              <span class="precio">S/ ${precioFormateado}</span>
+              <button class="btn-comprar">Ver Detalle</button>
+            </div>
+          `;
+
+          contenedor.appendChild(card);
+        });
+      }, (error) => {
+        console.error("Error al cargar " + nombreColeccion + ":", error);
+        contenedor.innerHTML = `<div class="vacio" style="color: #ef4444;">Error al cargar productos.</div>`;
+      });
+    }
+
+    cargarColeccion("mouses", "mouses-grid");
+    cargarColeccion("teclados", "teclados-grid");
+    cargarColeccion("audifonos", "audifonos-grid");
+  </script>
+</body>
+</html>
